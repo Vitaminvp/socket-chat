@@ -21,7 +21,11 @@ server.listen(port, () => {
 io.on('connection', socket => {
   console.log(socket.id);
   //io.clients().connected();
-
+  const  users  = io.sockets.clients().connected;
+  //console.log("users", users);
+  Object.keys(users).map(item => {
+    console.log(users[item].username);
+  });
   socket.username  = Moniker.choose();
 
   socket.emit('set username', {name: socket.username, date: new Date()});
@@ -33,15 +37,13 @@ io.on('connection', socket => {
   });
 
   socket.on('chat message', message => {
-    io.emit('chat message', {message, name: socket.username, date: new Date()});
+    //io.emit('chat message', {message, name: socket.username, date: new Date()});
+    socket.broadcast.emit('chat message', {message, name: socket.username, date: new Date()});
+    socket.emit('own message', {message, name: socket.username, date: new Date()});
   });
 
   socket.on('typing', message => {
     socket.broadcast.emit('typing', { name: socket.username, message })
-  });
-
-  socket.on('stop typing', () => {
-    socket.broadcast.emit('stop typing', {name: socket.username})
   });
 
 });

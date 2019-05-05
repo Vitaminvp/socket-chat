@@ -5,8 +5,13 @@ export class Messages{
         this.node = document.querySelector(selectorNode);
         this.typing = document.querySelector(typing);
     }
+
     renderMessage = (username, message, date) => {
         this.node.innerHTML += `<p><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`;
+    };
+
+    renderOwnMessage = (username, message, date) => {
+        this.node.innerHTML += `<p><b class="ownMessage">[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`;
     };
 
     renderSystemMessage = (message, date) => {

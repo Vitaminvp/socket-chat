@@ -87,3 +87,9 @@ small{
 	font-weight: normal;
 	word-spacing: -2px;
 }
+.ownMessage{
+	color: orangered;
+}
+.ownMessage small{
+	color: orangered;
+}

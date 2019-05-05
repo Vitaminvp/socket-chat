@@ -25,6 +25,10 @@ export class Socket {
         this.socket.on('chat message', handler);
     };
 
+    onOwnMessage = handler => {
+        this.socket.on('own message', handler);
+    };
+
     emitTyping = message => {
         this.socket.emit('typing', message);
     };

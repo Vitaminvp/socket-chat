@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     messages.renderMessage(name, message, date);
   });
 
+  socket.onOwnMessage(({ name, message, date }) => {
+    messages.renderOwnMessage(name, message, date);
+  });
+
   messagesForm.onSubmit(socket.emitChatMessage);
 
   messagesForm.onTyping(socket.emitTyping);
