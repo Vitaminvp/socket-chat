@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     messages.renderTyping(name, message, date);
   });
 
-
   messagesForm.onTyping(socket.onTyping);
 
 
