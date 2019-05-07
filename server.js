@@ -36,7 +36,6 @@ io.on('connection', socket => {
     });
 
     socket.on('chat message', message => {
-        //io.emit('chat message', {message, name: socket.username, date: new Date()});
         socket.broadcast.emit('chat message', {message, name: socket.username, date: new Date()});
         socket.emit('own message', {status: 'delivered', message, name: socket.username, date: new Date()});
     });
