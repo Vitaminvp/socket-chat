@@ -54,5 +54,5 @@ io.on('connection', socket => {
     socket.broadcast.emit('typing', { name: socket.username, message })
   });
 
-  io.emit('users list', { usersList,  name: socket.username });
+  io.emit('users list', { usersList });
 });

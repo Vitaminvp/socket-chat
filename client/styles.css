@@ -46,7 +46,7 @@ body {
 }
 
 .scrollable {
-	overflow-y: scroll;
+	overflow-y: auto;
 	flex-grow: 1;
 }
 
@@ -91,8 +91,11 @@ small{
 	color: darkblue;
 }
 .ownMessage small{
-	color: darkblue;
+	/*color: darkblue;*/
 }
 .ownMessage p{
 	color: darkblue;
+}
+.sysMessage {
+	color: brown;
 }
