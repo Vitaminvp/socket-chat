@@ -31,14 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         messages.renderMessage(name, message, date);
     });
 
-    socket.onOwnMessage(({status, name, message, date}) => {
-        messages.renderOwnMessage(status, name, message, date);
+    socket.onOwnMessage(({status, name, message, date, dateId}) => {
+        messages.renderOwnMessage(status, name, message, date, dateId);
     });
 
     messagesForm.onSubmit(message => {
         const name = username.getName();
-        messages.renderOwnMessage('sending', name, message, new Date());
-        socket.emitChatMessage(message);
+        const date = new Date();
+        const dateMs = Date.now();
+        messages.renderOwnMessage('sending', name, message, date, dateMs);
+        socket.emitChatMessage({message, date: dateMs});
     });
 
     messagesForm.onTyping(socket.emitTyping);

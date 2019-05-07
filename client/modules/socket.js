@@ -21,8 +21,8 @@ export class Socket {
         this.socket.on('user left', handler);
     };
 
-    emitChatMessage = message => {
-        this.socket.emit('chat message', message);
+    emitChatMessage = ({message, date}) => {
+        this.socket.emit('chat message', {message, date});
     };
 
     onChatMessage = handler => {
