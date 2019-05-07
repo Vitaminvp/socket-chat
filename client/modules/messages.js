@@ -5,26 +5,51 @@ export class Messages {
         this.node = document.querySelector(selectorNode);
         this.typing = document.querySelector(typingNode);
         this.users = document.querySelector(usersNode);
+        this.message = '';
     }
 
     renderMessage = (username, message, date) => {
         const className = username === 'system' ? 'sysMessage' : '';
-        console.log(className);
-        this.node.insertAdjacentHTML('afterbegin', `<p class=${className}><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`);
+        this.node.insertAdjacentHTML('beforeend', `<p class=${className}><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`);
     };
 
-    renderOwnMessage = (username, message, date) => {
+    renderOwnMessage = (status, username, message, date) => {
         const className = 'ownMessage';
-        this.node.insertAdjacentHTML('afterbegin', `<p class=${className}><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`);
+        const myMessage = `<span class=${className}><b>[${username} <small>${renderDate(date)}</small>]</b> ${message} </span>`;
+        if (status === 'delivered') {
+            const ownMessage = document.createElement('div');
+            const status = '<small class="status">delivered</small>';
+            ownMessage.insertAdjacentHTML('beforeend', myMessage);
+            ownMessage.insertAdjacentHTML('beforeend', status);
+            setTimeout(() => {
+                this.message.replaceWith(ownMessage);
+            }, 500);
+            //if(mentor.name === Vanya){
+            // Vanya, I don't want to hurt your feelings,
+            // though it works with throttling, but too quickly,
+            // for greater clarity I add timeout}
+
+        } else {
+            const ownMessage = document.createElement('div');
+            ownMessage.classList.add('status');
+            const status = '<small class="status">sending ...</small>';
+            ownMessage.insertAdjacentHTML('beforeend', myMessage);
+            ownMessage.insertAdjacentHTML('beforeend', status);
+            this.node.appendChild(ownMessage);
+            this.message = ownMessage;
+        }
     };
 
     renderSystemMessage = (message, date) => {
         this.renderMessage('system', message, date);
     };
 
-    renderTyping = (username, message) => {
+    renderTyping = (names, message) => {
+        console.log(names);
         if (message) {
-            this.typing.innerHTML = `<p><small>${username} is ${message}</small></p>`;
+            this.typing.innerHTML = Object.values(names)
+                .map(name => `<p><small>${name} is ${message}</small></p>`)
+                .join('');
         }
         setTimeout(() => {
             this.typing.innerHTML = '';

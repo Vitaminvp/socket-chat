@@ -1,5 +1,5 @@
-export class Username{
-    constructor(selector){
+export class Username {
+    constructor(selector) {
         this.node = document.querySelector(selector);
         this.name = '';
     }

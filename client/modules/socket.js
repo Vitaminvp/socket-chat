@@ -1,7 +1,7 @@
 /* global io */
 
 export class Socket {
-    constructor(){
+    constructor() {
         this.socket = io();
     }
 
@@ -9,15 +9,15 @@ export class Socket {
         this.socket.on('set username', handler);
     };
 
-    onUserJoined= handler => {
+    onUserJoined = handler => {
         this.socket.on('user joined', handler);
     };
 
-    onUserChangeName= handler => {
+    onUserChangeName = handler => {
         this.socket.on('user change name', handler);
     };
 
-    onUserLeft= handler => {
+    onUserLeft = handler => {
         this.socket.on('user left', handler);
     };
 
