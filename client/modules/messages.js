@@ -11,7 +11,7 @@ export class Messages{
     };
 
     renderOwnMessage = (username, message, date) => {
-        this.node.innerHTML += `<p><b class="ownMessage">[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`;
+        this.node.innerHTML += `<p class="ownMessage"><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`;
     };
 
     renderSystemMessage = (message, date) => {

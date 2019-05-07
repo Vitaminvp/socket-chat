@@ -37,6 +37,8 @@ export class Socket {
         this.socket.on('typing', handler);
     };
 
-
+    onUsersList = handler => {
+        this.socket.on('users list', handler);
+    };
 
 }

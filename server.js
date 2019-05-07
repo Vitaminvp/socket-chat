@@ -8,6 +8,8 @@ const server = http.Server(app);
 const port = process.env.PORT || 3000;
 const io = socketIO(server);
 
+const usersList = {};
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client/index.html');
 });
@@ -21,18 +23,24 @@ server.listen(port, () => {
 io.on('connection', socket => {
   console.log(socket.id);
   //io.clients().connected();
-  const  users  = io.sockets.clients().connected;
+
+
+  //const  users  = io.sockets.clients().connected;
   //console.log("users", users);
-  Object.keys(users).map(item => {
-    console.log(users[item].username);
-  });
+  // Object.keys(users).map(item => {
+  //   console.log(users[item].username);
+  // });
   socket.username  = Moniker.choose();
+  usersList[socket.id] = socket.username;
+
 
   socket.emit('set username', {name: socket.username, date: new Date()});
 
   socket.broadcast.emit('user joined', {name: socket.username, date: new Date()});
 
   socket.on('disconnect', () => {
+    delete usersList[socket.id];
+    socket.broadcast.emit('users list', { usersList });
     socket.broadcast.emit('user left', {name: socket.username, date: new Date()});
   });
 
@@ -46,4 +54,5 @@ io.on('connection', socket => {
     socket.broadcast.emit('typing', { name: socket.username, message })
   });
 
+  io.emit('users list', { usersList,  name: socket.username });
 });

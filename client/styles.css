@@ -88,8 +88,11 @@ small{
 	word-spacing: -2px;
 }
 .ownMessage{
-	color: orangered;
+	color: darkblue;
 }
 .ownMessage small{
-	color: orangered;
+	color: darkblue;
+}
+.ownMessage p{
+	color: darkblue;
 }
