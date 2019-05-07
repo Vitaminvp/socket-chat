@@ -9,12 +9,13 @@
 <body>
 <main class="main">
   <aside>
-    <pre class="username" id="username"></pre>
 
-    <div class="scrollable" id="rooms"></div>
-    <p>Users online:</p>
+    <input type="text" placeholder="Your name" autocomplete="off" class="username" id="username" />
+    <p class="online">Users online:</p>
     <pre class="scrollable" id="usersList">
     </pre>
+
+    <div class="scrollable" id="rooms"></div>
 
     <form class="form form--small" id="room">
       <input type="text" placeholder="room name" autocomplete="off">

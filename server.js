@@ -54,5 +54,20 @@ io.on('connection', socket => {
     socket.broadcast.emit('typing', { name: socket.username, message })
   });
 
+
+  socket.on('change name',newName => {
+
+    const oldName = socket.username;
+
+    socket.username = newName;
+    usersList[socket.id] = socket.username;
+
+    io.emit('users list', { usersList });
+    socket.emit('set username', {name: socket.username, date: new Date()});
+    socket.broadcast.emit('user change name', {name: oldName, newName: socket.username, date: new Date()});
+
+  });
+
+
   io.emit('users list', { usersList });
 });

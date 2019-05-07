@@ -8,10 +8,14 @@ export class Socket {
     onSetUsername = handler => {
         this.socket.on('set username', handler);
     };
+
     onUserJoined= handler => {
         this.socket.on('user joined', handler);
     };
 
+    onUserChangeName= handler => {
+        this.socket.on('user change name', handler);
+    };
 
     onUserLeft= handler => {
         this.socket.on('user left', handler);
@@ -41,4 +45,7 @@ export class Socket {
         this.socket.on('users list', handler);
     };
 
+    emitChangingName = name => {
+        this.socket.emit('change name', name);
+    };
 }

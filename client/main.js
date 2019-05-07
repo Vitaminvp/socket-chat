@@ -12,11 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   socket.onSetUsername(({name, date}) => {
     username.render(name, date);
-    messages.renderSystemMessage(`${name} assigned to you.`, date);
+    messages.renderSystemMessage(`<b>${name}</b> assigned to you.`, date);
   });
 
   socket.onUserJoined(({name, date}) => {
-    messages.renderSystemMessage(`${name} joined.`, date);
+    messages.renderSystemMessage(`<b>${name}</b> joined.`, date);
+  });
+
+  socket.onUserChangeName(({name, newName, date}) => {
+    messages.renderSystemMessage(`<b>${name}</b> change name to <b>${newName}</b>.`, date);
   });
 
   socket.onUserLeft(({name, date}) => {
@@ -46,5 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     messages.renderUsersList(usersList, name);
   });
 
+  messagesForm.onChangeName(name => {
+        username.setName(name);
+        socket.emitChangingName(name);
+  });
   //socket.close();
 });

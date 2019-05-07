@@ -6,8 +6,9 @@ export class Username{
 
     render = value => {
         this.name = value;
-        this.node.innerHTML = value;
+        this.node.value = value;
     };
 
     getName = () => this.name;
+    setName = name => this.name = name;
 }
