@@ -70,7 +70,7 @@ io.on('connection', socket => {
         socket.username = newName;
         usersList[socket.id] = socket.username;
 
-        io.emit('users list', {usersList});
+        io.to(socket.room).emit('users list', {usersList});
         socket.emit('set username', {name: socket.username, date: new Date()});
         socket.broadcast.emit('user change name', {name: oldName, newName: socket.username, date: new Date()});
 
