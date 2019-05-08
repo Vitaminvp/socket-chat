@@ -1,5 +1,5 @@
 {
-  "name": "socket-io-chat-example",
+  "name": "kottans-socket-io-chat-example",
   "version": "0.0.1",
   "description": "socket-io chat example",
   "dependencies": {
