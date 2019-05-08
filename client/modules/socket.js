@@ -48,4 +48,12 @@ export class Socket {
     emitChangingName = name => {
         this.socket.emit('change name', name);
     };
+
+    emitRoomChange(room) {
+        this.socket.emit('change room', room);
+    }
+
+    onRoomChanged(handler) {
+        this.socket.on('room changed', handler);
+    }
 }

@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/index.html');
 });
 
+app.get('/multiview', (req, res) => {
+    res.sendFile(__dirname + '/client/multiview.html');
+});
+
 app.use(express.static('./client'));
 
 server.listen(port, () => {
@@ -23,21 +27,31 @@ server.listen(port, () => {
 io.on('connection', socket => {
     console.log(socket.id);
     socket.username = Moniker.choose();
+
+    socket.room = 'general';
+    socket.join('general');
+
     usersList[socket.id] = socket.username;
 
-    socket.emit('set username', {name: socket.username, date: new Date()});
+    // socket.emit('set username', {name: socket.username, date: new Date()});
+    // socket.broadcast.emit('user joined', {name: socket.username, date: new Date()});
 
-    socket.broadcast.emit('user joined', {name: socket.username, date: new Date()});
+    socket.emit('set username', {name: socket.username, date: new Date()});
+    socket.to(socket.room).emit('user joined', {name: socket.username, date: new Date()});
+
 
     socket.on('disconnect', () => {
         delete usersList[socket.id];
-        socket.broadcast.emit('users list', {usersList});
-        socket.broadcast.emit('user left', {name: socket.username, date: new Date()});
+        // socket.broadcast.emit('users list', {usersList});
+        // socket.broadcast.emit('user left', {name: socket.username, date: new Date()});
+        socket.to(socket.room).emit('users list', {usersList});
+        socket.to(socket.room).emit('user left', {name: socket.username, date: new Date()});
     });
 
     socket.on('chat message', ({message, date}) => {
         const dateId = date;
-        socket.broadcast.emit('chat message', {message, name: socket.username, date: new Date()});
+        // socket.broadcast.emit('chat message', {message, name: socket.username, date: new Date()});
+        socket.to(socket.room).emit('chat message', {message, name: socket.username, date: new Date()});
         socket.emit('own message', {status: 'delivered', message, name: socket.username, date: new Date(), dateId});
     });
 
@@ -46,7 +60,8 @@ io.on('connection', socket => {
         setTimeout(() => {
             delete usersTyping[socket.id]
         }, 2000);
-        socket.broadcast.emit('typing', {names: usersTyping, message})
+        // socket.broadcast.emit('typing', {names: usersTyping, message})
+        socket.to(socket.room).emit('typing', {names: usersTyping, message})
     });
 
     socket.on('change name', newName => {
@@ -61,6 +76,18 @@ io.on('connection', socket => {
 
     });
 
-    io.emit('users list', {usersList});
+    socket.on('change room', nextRoom => {
+        socket.leave(socket.room);
+        socket.join(nextRoom);
+
+        socket.to(socket.room).emit('user left', {name: socket.username, date: new Date()});
+        socket.to(nextRoom).emit('user joined', {name: socket.username, date: new Date()});
+
+        socket.room = nextRoom;
+        socket.emit('room changed', nextRoom);
+    });
+
+    //io.emit('users list', {usersList});
+    io.to(socket.room).emit('users list', {usersList});
 
 });

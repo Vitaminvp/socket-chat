@@ -2,6 +2,8 @@ import {Username} from './modules/username.js'
 import {Socket} from './modules/socket.js';
 import {Messages} from './modules/messages.js';
 import {MessagesForm} from './modules/message-form.js';
+import {RoomForm} from './modules/room-form.js';
+import {Rooms} from './modules/rooms.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -9,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = new Username('#username');
     const messages = new Messages('#messages', '#typingStatus', '#usersList');
     const messagesForm = new MessagesForm('#messageForm');
+    const roomForm = new RoomForm('#room');
+    const rooms = new Rooms('#rooms');
 
     socket.onSetUsername(({name, date}) => {
         username.render(name, date);
@@ -59,6 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
     messagesForm.onChangeName(name => {
         username.setName(name);
         socket.emitChangingName(name);
+    });
+
+    rooms.render();
+
+    roomForm.onSubmit(room => {
+        socket.emitRoomChange(room);
+    });
+
+    socket.onRoomChanged(room => {
+        rooms.add(room);
+        rooms.select(room);
+        rooms.render();
+        messages.clear();
     });
 
 });

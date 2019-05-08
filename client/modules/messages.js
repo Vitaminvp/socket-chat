@@ -54,5 +54,9 @@ export class Messages {
         });
 
         this.users.appendChild(documentFragment);
+    };
+
+    clear() {
+        this.node.innerHTML = '';
     }
 }
