@@ -15,6 +15,7 @@ export class Form {
             }
         })
     };
+
     onTyping = handler => {
         this.node.addEventListener('keypress', () => {
             handler(`typing ...`);
@@ -33,9 +34,8 @@ export class Form {
     onChangeRoom = handler => {
         this.rooms.addEventListener('click', evt => {
             if(evt.target.classList.contains('room')){
-                console.log(evt.target.textContent.split('[room] ')[1]);
                 handler(evt.target.textContent.split('[room] ')[1]);
-            };
+            }
         })
     }
 }

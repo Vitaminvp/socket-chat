@@ -10,6 +10,7 @@ export class Messages {
     renderMessage = (username, message, date) => {
         const className = username === 'system' ? 'sysMessage' : '';
         this.node.insertAdjacentHTML('beforeend', `<p class=${className}><b>[${username} <small>${renderDate(date)}</small>]</b> ${message}</p>`);
+        this.node.scrollTo(0, this.node.scrollHeight);
     };
 
     renderOwnMessage = (status, username, message, date, dateId) => {
