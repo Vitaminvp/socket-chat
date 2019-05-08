@@ -7,7 +7,6 @@ const server = http.Server(app);
 const port = process.env.PORT || 3000;
 const io = socketIO(server);
 
-//const usersList = {};
 const usersTyping = {};
 
 app.get('/', (req, res) => {
@@ -24,7 +23,6 @@ server.listen(port, () => {
     console.log('listening on *:' + port);
 });
 
-
 const getRoomUsers = room => {
     const clients =
         io.sockets.adapter.rooms[room] === undefined
@@ -37,9 +35,6 @@ const getRoomUsers = room => {
     });
     return users;
 };
-
-
-
 
 io.on('connection', socket => {
     socket.username = Moniker.choose();
