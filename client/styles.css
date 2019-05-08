@@ -104,3 +104,7 @@ small {
 .online {
     color: #848383;
 }
+
+.room {
+    cursor: pointer;
+}

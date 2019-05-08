@@ -13,8 +13,8 @@ export class Rooms {
 
     renderRoom = room => (
         this.activeRoom === room ?
-            `<div><b>[room] ${room}</b></div>` :
-            `<div>[room] ${room}</div>`
+            `<div class="room"><b>[room] ${room}</b></div>` :
+            `<div class="room">[room] ${room}</div>`
     );
 
     add(room) {

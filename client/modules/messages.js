@@ -42,8 +42,11 @@ export class Messages {
 
     renderUsersList = (usersList, name) => {
         this.users.innerHTML = "";
+        const users = usersList.reduce((cur, acc) => {
+            return Object.assign(acc, cur);
+        }, {});
         const documentFragment = document.createDocumentFragment();
-        Object.values(usersList).forEach(user => {
+        Object.values(users).forEach(user => {
             let element = document.createElement("p");
             if (name && user === name) {
                 element.innerHTML = `<b class="ownMessage">${user}</b>\n`;

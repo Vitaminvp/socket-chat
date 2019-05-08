@@ -1,7 +1,7 @@
 import {Username} from './modules/username.js'
 import {Socket} from './modules/socket.js';
 import {Messages} from './modules/messages.js';
-import {MessagesForm} from './modules/message-form.js';
+import {Form} from './modules/form.js';
 import {RoomForm} from './modules/room-form.js';
 import {Rooms} from './modules/rooms.js';
 
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const socket = new Socket();
     const username = new Username('#username');
     const messages = new Messages('#messages', '#typingStatus', '#usersList');
-    const messagesForm = new MessagesForm('#messageForm');
+    const form = new Form('#messageForm');
     const roomForm = new RoomForm('#room');
     const rooms = new Rooms('#rooms');
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messages.renderOwnMessage(status, name, message, date, dateId);
     });
 
-    messagesForm.onSubmit(message => {
+    form.onSubmit(message => {
         const name = username.getName();
         const date = new Date();
         const dateMs = Date.now();
@@ -47,20 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emitChatMessage({message, date: dateMs});
     });
 
-    messagesForm.onTyping(socket.emitTyping);
+    form.onTyping(socket.emitTyping);
 
     socket.onTyping(({names, message, date}) => {
         messages.renderTyping(names, message, date);
     });
 
-    messagesForm.onTyping(socket.onTyping);
+    form.onTyping(socket.onTyping);
 
     socket.onUsersList(({usersList}) => {
         const name = username.getName();
         messages.renderUsersList(usersList, name);
     });
 
-    messagesForm.onChangeName(name => {
+    form.onChangeName(name => {
         username.setName(name);
         socket.emitChangingName(name);
     });
@@ -71,11 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emitRoomChange(room);
     });
 
+    form.onChangeRoom(room => {
+        socket.emitRoomChange(room);
+    });
+
     socket.onRoomChanged(room => {
         rooms.add(room);
         rooms.select(room);
         rooms.render();
         messages.clear();
     });
+    
 
 });
