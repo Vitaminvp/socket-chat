@@ -11,11 +11,11 @@ const io = socketIO(server);
 const usersTyping = {};
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/client/index.html');
+    res.sendFile(__dirname + './client/index.html');
 });
 
 app.get('/multiview', (req, res) => {
-    res.sendFile(__dirname + '/client/multiview.html');
+    res.sendFile(__dirname + './client/multiview.html');
 });
 
 app.use(express.static('./client'));
